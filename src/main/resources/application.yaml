@@ -18,3 +18,10 @@ spring:
     console:
       path: /h2-console
       enabled: true
+
+app:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY}
+      expiration-time: 3600000 # 1h in millisecond
+

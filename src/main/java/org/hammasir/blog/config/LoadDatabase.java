@@ -3,6 +3,7 @@ package org.hammasir.blog.config;
 import org.hammasir.blog.entity.Post;
 import org.hammasir.blog.entity.Role;
 import org.hammasir.blog.entity.User;
+import org.hammasir.blog.entity.UserPassword;
 import org.hammasir.blog.repository.PostRepository;
 import org.hammasir.blog.repository.UserRepository;
 import org.slf4j.Logger;
@@ -19,24 +20,14 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, PostRepository postRepository) {
         return args -> {
-            User hadi = User.builder()
-                    .name("Hadi")
-                    .username("hadi_user")
-                    .password("password1")
-                    .role(Role.USER)
-                    .build();
-
-            User kambiz = User.builder()
-                    .name("Kambiz")
-                    .username("kambiz_user")
-                    .password("password2")
-                    .role(Role.ADMIN)
-                    .build();
+            // Create users
+            User hadi = createUser("Hadi", "hadi_user", "password1", Role.USER);
+            User kambiz = createUser("Kambiz", "kambiz_user", "password2", Role.ADMIN);
 
             log.info("Preloading {}", userRepository.save(hadi));
             log.info("Preloading {}", userRepository.save(kambiz));
 
-            // Preloading posts using @Builder
+            // Preload posts using @Builder
             Post post1 = Post.builder()
                     .title("First Post")
                     .content("This is the content of the first post.")
@@ -59,5 +50,18 @@ public class LoadDatabase {
             log.info("Preloading {}", postRepository.save(post2));
             log.info("Preloading {}", postRepository.save(post3));
         };
+    }
+
+    private User createUser(String name, String username, String password, Role role) {
+        UserPassword userPassword = UserPassword.builder()
+                .password(password)
+                .build();
+
+        return User.builder()
+                .name(name)
+                .username(username)
+                .password(userPassword)
+                .role(role)
+                .build();
     }
 }
