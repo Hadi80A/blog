@@ -1,10 +1,9 @@
 package org.hammasir.blog.config;
 
-import org.hammasir.blog.dto.RegisterUserDto;
+import org.hammasir.blog.dto.UserDto;
 import org.hammasir.blog.entity.Post;
 import org.hammasir.blog.entity.Role;
 import org.hammasir.blog.entity.User;
-import org.hammasir.blog.entity.UserPassword;
 import org.hammasir.blog.repository.PostRepository;
 import org.hammasir.blog.repository.UserRepository;
 import org.hammasir.blog.service.UserService;
@@ -24,12 +23,20 @@ public class LoadDatabase {
         return args -> {
             // Create users
             User hadi = userService.add(
-                    new RegisterUserDto("Hadi", "hadi", "password"),
-                    Role.USER
+                    UserDto.builder()
+                            .name("hadi")
+                            .username("hadi")
+                            .password("password")
+                            .role(Role.USER)
+                            .build()
             );
             User kambiz = userService.add(
-                    new RegisterUserDto("Kambiz", "kambiz1400", "password2"),
-                    Role.ADMIN
+                    UserDto.builder()
+                            .name("kambiz")
+                            .username("kambiz1400")
+                            .password("pass")
+                            .role(Role.ADMIN)
+                            .build()
             );
 
             log.info("Preloading {}", hadi);

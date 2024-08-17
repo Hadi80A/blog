@@ -1,6 +1,6 @@
 package org.hammasir.blog.controller;
 
-import org.hammasir.blog.dto.UserInfoDto;
+import org.hammasir.blog.dto.UserDto;
 import org.hammasir.blog.entity.User;
 import org.hammasir.blog.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +22,18 @@ public class UserController {
     }
 
     @GetMapping("${app.urls.users.current-user}")
-    public ResponseEntity<String> getAuthenticatedUser(@AuthenticationPrincipal User currentUser) {
-//        return ResponseEntity.ok(new UserInfoDto(currentUser));
-        return ResponseEntity.ok(currentUser.getName());
+    public ResponseEntity<UserDto> getAuthenticatedUser(@AuthenticationPrincipal User currentUser) {
+        UserDto userDto=UserDto.builder()
+                .name(currentUser.getName())
+                .username(currentUser.getUsername())
+                .role(currentUser.getRole())
+                .build();
+        return ResponseEntity.ok(userDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserInfoDto>> getAllUsers() {
-        List<UserInfoDto> users = userService.getAllUsers();
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 }

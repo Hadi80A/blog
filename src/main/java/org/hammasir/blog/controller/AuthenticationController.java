@@ -1,9 +1,7 @@
 package org.hammasir.blog.controller;
 
-
 import org.hammasir.blog.dto.LoginResponseDto;
-import org.hammasir.blog.dto.LoginUserDto;
-import org.hammasir.blog.dto.RegisterUserDto;
+import org.hammasir.blog.dto.UserDto;
 import org.hammasir.blog.entity.User;
 import org.hammasir.blog.service.AuthenticationService;
 import org.hammasir.blog.service.JwtService;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
-    
     private final AuthenticationService authenticationService;
 
     public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
@@ -26,21 +23,27 @@ public class AuthenticationController {
     }
 
     @PostMapping("${app.urls.auth.signup}")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
+    public ResponseEntity<UserDto> register(@RequestBody UserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
 
-        return ResponseEntity.ok(registeredUser);
+        // تبدیل User به UserDto
+        UserDto userDto = UserDto.builder()
+                .id(registeredUser.getId())
+                .name(registeredUser.getName())
+                .username(registeredUser.getUsername())
+                .build();
+
+        return ResponseEntity.ok(userDto);
     }
 
     @PostMapping("${app.urls.auth.login}")
-    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody UserDto loginUserDto) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
-
         long expirationTime = jwtService.getExpirationTime();
-        LoginResponseDto loginResponse = new LoginResponseDto(jwtToken,expirationTime);
 
+        LoginResponseDto loginResponse = new LoginResponseDto(jwtToken, expirationTime);
         return ResponseEntity.ok(loginResponse);
     }
 }
