@@ -19,7 +19,7 @@ public class UserPassword {
     private Long id;
 
     @Column(nullable = false)
-    private String password;
+    transient private String password;
 
     @OneToOne(mappedBy = "password")
     private User user;

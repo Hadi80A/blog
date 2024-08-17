@@ -1,11 +1,13 @@
 package org.hammasir.blog.config;
 
+import org.hammasir.blog.dto.RegisterUserDto;
 import org.hammasir.blog.entity.Post;
 import org.hammasir.blog.entity.Role;
 import org.hammasir.blog.entity.User;
 import org.hammasir.blog.entity.UserPassword;
 import org.hammasir.blog.repository.PostRepository;
 import org.hammasir.blog.repository.UserRepository;
+import org.hammasir.blog.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,14 +20,20 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(UserRepository userRepository, PostRepository postRepository) {
+    CommandLineRunner initDatabase(UserRepository userRepository, PostRepository postRepository , UserService userService) {
         return args -> {
             // Create users
-            User hadi = createUser("Hadi", "hadi_user", "password1", Role.USER);
-            User kambiz = createUser("Kambiz", "kambiz_user", "password2", Role.ADMIN);
+            User hadi = userService.add(
+                    new RegisterUserDto("Hadi", "hadi", "password"),
+                    Role.USER
+            );
+            User kambiz = userService.add(
+                    new RegisterUserDto("Kambiz", "kambiz1400", "password2"),
+                    Role.ADMIN
+            );
 
-            log.info("Preloading {}", userRepository.save(hadi));
-            log.info("Preloading {}", userRepository.save(kambiz));
+            log.info("Preloading {}", hadi);
+            log.info("Preloading {}", kambiz);
 
             // Preload posts using @Builder
             Post post1 = Post.builder()
@@ -52,16 +60,4 @@ public class LoadDatabase {
         };
     }
 
-    private User createUser(String name, String username, String password, Role role) {
-        UserPassword userPassword = UserPassword.builder()
-                .password(password)
-                .build();
-
-        return User.builder()
-                .name(name)
-                .username(username)
-                .password(userPassword)
-                .role(role)
-                .build();
-    }
 }

@@ -15,30 +15,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
-    
-    private final PasswordEncoder passwordEncoder;
-    
+
     private final AuthenticationManager authenticationManager;
+    private  final UserService userService;
 
     public AuthenticationService(
-        UserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder
+            UserRepository userRepository,
+            AuthenticationManager authenticationManager,
+            UserService userService
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     public User signup(RegisterUserDto input) {
-        User user = User.builder()
-                .name(input.name())
-                .username(input.username())
-//                .password(passwordEncoder.encode(input.password()))
-                .role(Role.USER)
-                .build();
-
-        return userRepository.save(user);
+        User user =userService.add(input,Role.USER);
+        return user;
     }
 
     public User authenticate(LoginUserDto input) {

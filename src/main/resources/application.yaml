@@ -19,9 +19,28 @@ spring:
       path: /h2-console
       enabled: true
 
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
 app:
   security:
     jwt:
       secret-key: ${SECRET_KEY}
       expiration-time: 3600000 # 1h in millisecond
+  urls:
+    auth:
+      base: "/auth"
+      login: "/login"
+      signup: "/signup"
+    post:
+      base: "/api/posts"
+      all : "/"
+      add : "/"
+      search : "/search"
+    users:
+      base: "/api/users"
+      current-user: "/me"
 

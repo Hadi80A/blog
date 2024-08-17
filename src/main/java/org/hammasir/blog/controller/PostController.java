@@ -1,5 +1,6 @@
 package org.hammasir.blog.controller;
 
+import org.hammasir.blog.dto.PostDto;
 import org.hammasir.blog.entity.Post;
 import org.hammasir.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+//@RequestMapping("${app.urls.post.base}")
 public class PostController {
 
     private final PostService postService;
@@ -20,9 +22,9 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postService.getAllPosts();
+    @GetMapping("${app.urls.post.all}")
+    public ResponseEntity<List<PostDto>> getAllPosts() {
+        List<PostDto> posts = postService.getAllPosts();
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
@@ -32,7 +34,7 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("${app.urls.post.add}")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
         Post createdPost = postService.createPost(post);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
@@ -51,12 +53,12 @@ public class PostController {
     }
 
     @GetMapping("/author/{authorId}")
-    public ResponseEntity<List<Post>> getPostsByAuthor(@PathVariable Long authorId) {
-        List<Post> posts = postService.getPostsByAuthor(authorId);
+    public ResponseEntity<List<PostDto>> getPostsByAuthor(@PathVariable Long authorId) {
+        List<PostDto> posts = postService.getPostsByAuthor(authorId);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("${app.urls.post.search}")
     public ResponseEntity<List<Post>> getPostsByKeyword(@RequestParam String keyword) {
         List<Post> posts = postService.getPostsByKeyword(keyword);
         return new ResponseEntity<>(posts, HttpStatus.OK);
