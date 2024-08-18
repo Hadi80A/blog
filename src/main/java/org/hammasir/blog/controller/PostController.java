@@ -52,15 +52,15 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/author/{authorId}")
-    public ResponseEntity<List<PostDto>> getPostsByAuthor(@PathVariable Long authorId) {
-        List<PostDto> posts = postService.getPostsByAuthor(authorId);
+    @GetMapping("/author/{username}")
+    public ResponseEntity<List<PostDto>> getPostsByAuthor(@PathVariable String username) {
+        List<PostDto> posts = postService.getPostsByAuthor(username);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @GetMapping("${app.urls.post.search}")
-    public ResponseEntity<List<Post>> getPostsByKeyword(@RequestParam String keyword) {
-        List<Post> posts = postService.getPostsByKeyword(keyword);
+    public ResponseEntity<List<PostDto>> getPostsByKeyword(@RequestParam String keyword) {
+        List<PostDto> posts = postService.getPostsByKeyword(keyword);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 }

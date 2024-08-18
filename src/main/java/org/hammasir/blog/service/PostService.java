@@ -54,16 +54,16 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-    public List<PostDto> getPostsByAuthor(Long authorId) {
-        User author = userRepository.findById(authorId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + authorId));
+    public List<PostDto> getPostsByAuthor(String  authorUser) {
+        User author = userRepository.findByUsername(authorUser)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with username " + authorUser));
 
         List<Post> post =postRepository.findByAuthor(author);
 
         return post.stream().map(PostDto::new).collect(Collectors.toList());
     }
 
-    public List<Post> getPostsByKeyword(String keyword) {
-        return postRepository.findByTitleContaining(keyword);
+    public List<PostDto> getPostsByKeyword(String keyword) {
+        return postRepository.findByTitleContaining(keyword).stream().map(PostDto::new).toList();
     }
 }

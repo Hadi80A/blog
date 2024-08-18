@@ -1,23 +1,22 @@
 package org.hammasir.blog.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Post {
     @Id
     @GeneratedValue
-    private Long id;
-    private String title;
-    private String content;
+    Long id;
+    String title;
+    String content;
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private User author;
+    User author;
 }

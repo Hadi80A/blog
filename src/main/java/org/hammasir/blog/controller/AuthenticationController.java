@@ -26,7 +26,7 @@ public class AuthenticationController {
     public ResponseEntity<UserDto> register(@RequestBody UserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
 
-        // تبدیل User به UserDto
+
         UserDto userDto = UserDto.builder()
                 .id(registeredUser.getId())
                 .name(registeredUser.getName())
