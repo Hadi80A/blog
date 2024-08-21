@@ -1,7 +1,13 @@
 package org.hammasir.blog.controller;
 
-import org.hammasir.blog.dto.PostDto;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.hammasir.blog.dto.*;
 import org.hammasir.blog.entity.Post;
+import org.hammasir.blog.projection.PostInfo;
+import org.hammasir.blog.projection.PostProjection;
+import org.hammasir.blog.service.LocationService;
 import org.hammasir.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,15 +18,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
-//@RequestMapping("${app.urls.post.base}")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class PostController {
 
-    private final PostService postService;
+    PostService postService;
+    LocationService locationService;
 
-    @Autowired
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
+
 
     @GetMapping("${app.urls.post.all}")
     public ResponseEntity<List<PostDto>> getAllPosts() {
@@ -63,4 +68,30 @@ public class PostController {
         List<PostDto> posts = postService.getPostsByKeyword(keyword);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<PostDto>> filterPosts(@ModelAttribute FilterParamsDto filterParamsDto){
+        var posts = postService.findAll(filterParamsDto);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping("/nearby")
+    public ResponseEntity<List<PostDto>> getNearbyPosts(@ModelAttribute NearbyRequestDto nearbyRequestDto){
+        var response= postService.findNearbyPosts(nearbyRequestDto);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @GetMapping("/location/{id}")
+    public ResponseEntity<PostLocationDto> getLocationByPostId(@PathVariable Long id){
+        var post=postService.getStateByPostId(id);
+        return new ResponseEntity<> (post,HttpStatus.OK);
+    }
+
+    @PostMapping("/location")
+    public ResponseEntity<List<PostInfo>> getPostByState(@RequestBody StateRequestDto req){
+        var posts=locationService.findPostByState(req.state());
+        return new ResponseEntity<> (posts,HttpStatus.OK);
+    }
+
+
 }

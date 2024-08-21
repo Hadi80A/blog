@@ -1,5 +1,6 @@
 package org.hammasir.blog.config;
 
+import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import org.hammasir.blog.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,5 +44,10 @@ public class ApplicationConfiguration {
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
+    }
+
+    @Bean
+    public JtsModule jtsModule() {
+        return new JtsModule();
     }
 }

@@ -29,7 +29,6 @@ public class User implements UserDetails {
     @Column(unique = true, length = 32, nullable = false)
     private String username;
 
-    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToOne(cascade = CascadeType.ALL)
