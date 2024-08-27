@@ -25,7 +25,7 @@ public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    @Bean
+//    @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, PostRepository postRepository, UserService userService) {
         return args -> {
             // Create users

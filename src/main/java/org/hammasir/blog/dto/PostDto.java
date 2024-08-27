@@ -3,12 +3,14 @@ package org.hammasir.blog.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hammasir.blog.entity.Post;
 import org.hammasir.blog.entity.User;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostDto {

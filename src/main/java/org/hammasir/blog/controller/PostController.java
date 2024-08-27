@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -93,5 +94,14 @@ public class PostController {
         return new ResponseEntity<> (posts,HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/test-like")
+    public  String tlikePost(@PathVariable Long id) {
+        return postService.testCache(id);
+    }
 
+    @PostMapping("/{id}/like")
+    public ResponseEntity<PostDto> likePost(@PathVariable Long id) {
+        return postService.likePost(id)
+                .thenApply(ResponseEntity::ok).join();
+    }
 }

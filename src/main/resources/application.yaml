@@ -14,6 +14,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      database: 0          # Redis database index (0 by default)
+      host: localhost       # Redis server host (e.g., localhost, or your Redis server IP)
+      port: 6379            # Redis server port (default is 6379)
+      timeout: 2000ms       # Connection timeout (e.g., 2000ms)
 
 logging:
   level:

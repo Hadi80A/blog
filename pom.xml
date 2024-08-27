@@ -88,7 +88,7 @@
             <artifactId>jts-core</artifactId>
             <version>1.19.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+
         <!-- https://mvnrepository.com/artifact/com.graphhopper.external/jackson-datatype-jts -->
         <dependency>
             <groupId>com.graphhopper.external</groupId>
@@ -96,6 +96,17 @@
             <version>2.14</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.0.Beta1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.35.0</version>
+        </dependency>
 
 
     </dependencies>
@@ -112,6 +123,30 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

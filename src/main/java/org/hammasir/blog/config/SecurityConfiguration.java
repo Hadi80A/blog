@@ -26,7 +26,8 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL={
             "/auth/**",
-            "/h2-console/"
+            "/h2-console/",
+            "/error"
     };
 
     public SecurityConfiguration(

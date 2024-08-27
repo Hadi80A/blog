@@ -1,12 +1,10 @@
 package org.hammasir.blog.repository;
 
-import org.hammasir.blog.dto.PostLocationDto;
-import org.hammasir.blog.entity.Post;
+
 import org.hammasir.blog.entity.State;
 import org.hammasir.blog.projection.PostInfo;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
