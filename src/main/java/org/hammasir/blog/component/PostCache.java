@@ -21,7 +21,7 @@ public class PostCache {
 
     @PostConstruct
     public void init(){
-        likesCache= redissonClient.getMapCache(LIKES_CACHE);
+        likesCache = redissonClient.getMapCache(LIKES_CACHE);
     }
 
     public Integer getLikesFromCache(Long postId) {

@@ -40,7 +40,7 @@ public class Post {
     @Builder.Default
     int likes = 0;
 
-    @Column(name = "location",columnDefinition = "geometry(Point, 4326)")
-    Geometry location;
+        @Column(name = "location",columnDefinition = "geometry(Point, 4326)")
+        Geometry location;
 
 }

@@ -7,6 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,12 +15,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   data:
     redis:
       database: 0          # Redis database index (0 by default)
       host: localhost       # Redis server host (e.g., localhost, or your Redis server IP)
       port: 6379            # Redis server port (default is 6379)
       timeout: 2000ms       # Connection timeout (e.g., 2000ms)
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 logging:
   level:
